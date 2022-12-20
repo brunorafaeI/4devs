@@ -1,19 +1,19 @@
-import { verify } from 'jsonwebtoken'
+import jwt from 'jsonwebtoken'
 import { AppError } from '../app/config/global.js'
-import { jwt_secret } from '../app/config/auth.js'
+import authConfig from '../app/config/auth.js'
 
 export const verifyToken = async (req, res, next) => {
-  const { authorization } = req.headers;
+  const { authorization } = req.headers
 
   if (!authorization) {
-    throw new AppError("JWT token is missing", 401);
+    throw new AppError("JWT token is missing", 401)
   }
 
   // Token Bearer
-  const [, token] = authorization.split(" ");
+  const [, token] = authorization.split(" ")
 
   try {
-    const decodedToken = verify(token, jwt_secret);
+    const decodedToken = jwt.verify(token, authConfig.jwt_secret)
     const { sub } = decodedToken;
 
     req.user_access = sub;

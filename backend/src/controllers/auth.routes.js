@@ -6,7 +6,6 @@ import jwt from 'jsonwebtoken'
 import upload from '../app/config/upload.js'
 import UserModel from '../models/user/UserSchema.js'
 import UserValidator from '../models/user/validators/UserValidator.js'
-import { globalError } from "../app/config/global.js"
 import authConfig from '../app/config/auth.js'
 
 const AuthRouter = Router()
@@ -34,7 +33,7 @@ AuthRouter.post(
       res.status(201).json(saveUser)
 
     } catch (err) {
-      return globalError(err, res)
+      throw err
     }
   }
 )
@@ -53,11 +52,11 @@ AuthRouter.post(
 
       const { jwt_secret, expiresIn } = authConfig
       const token = jwt.sign({ id: findUser.id }, jwt_secret, { expiresIn })
-      
+
       res.status(200).json({ user: findUser, token })
 
     } catch (err) {
-      return globalError(err, res)
+      throw err
     }
   }
 )

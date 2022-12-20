@@ -15,7 +15,7 @@ export default  {
   async checkPassword(password, user) {
     const isMatch = await bcrypt.compare(password, user.password)
     if (!isMatch) {
-      throw new UserInvalidCredential("Invalid credentials")
+      throw new UserInvalidCredential("Invalid credentials", 400)
     }
     return isMatch
   }

@@ -12,7 +12,7 @@ export class AppError extends Error {
   }
 }
 
-export const globalError = (err, res) => {
+export const globalError = (err, req, res, next) => {
   const { message, statusCode } = err
 
   if (err instanceof AppError) {
