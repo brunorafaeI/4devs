@@ -5,6 +5,7 @@ export class UserNotFound extends AppError {
     super(message, statusCode)
   }
 }
+
 export class UserInvalidCredential extends AppError {
   constructor(message = "Invalid user credentials!", statusCode = 401) {
     super(message, statusCode)
@@ -18,7 +19,7 @@ export class UserActionNotValid extends AppError {
 }
 
 export class UserEmailAlreadyExists extends AppError {
-  constructor(message = "User already existis.", statusCode = 400) {
+  constructor(message = "User already exists.", statusCode = 400) {
     super(message, statusCode)
   }
 }

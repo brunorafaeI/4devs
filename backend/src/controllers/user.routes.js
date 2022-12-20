@@ -2,6 +2,7 @@ import { Router } from "express"
 
 import { verifyToken } from "../middlewares/jwt.js"
 import { verifyObjectId } from "../middlewares/mongoose.js"
+import PostRepository from "../models/post/PostRepository.js"
 import UserRepository from "../models/user/UserRepository.js"
 
 const UserRouter = Router()
@@ -16,7 +17,7 @@ UserRouter.get(
 
     try {
       const findUser = await UserRepository.findById(id)
-      return res.status(200).json({ user: findUser })
+      res.status(200).json({ user: findUser })
 
     } catch (err) {
       throw err
@@ -49,7 +50,7 @@ UserRouter.get(
             : null
         })
       )
-      return res.status(200).json({ friends: userFriends })
+      res.status(200).json({ friends: userFriends })
 
     } catch (err) {
       throw err
@@ -67,7 +68,7 @@ UserRouter.patch(
 
     try {
       await UserRepository.updateFriend(id, friendId)
-      return res.status(200).json({ message: "Friends updated successfully" })
+      res.status(200).json({ message: "Friends updated successfully" })
 
     } catch (err) {
       throw err
@@ -84,8 +85,8 @@ UserRouter.get(
     const { id } = params
 
     try {
-        const findUser = await UserRepository.findById(id)
-        return res.status(200).json({ user: findUser })
+        const findPosts = await PostRepository.find({ userId: id })
+        res.status(200).json({ posts: findPosts })
 
     } catch (err) {
         throw err
