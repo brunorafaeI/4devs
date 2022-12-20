@@ -7,6 +7,7 @@ import upload from '../app/config/upload.js'
 import UserModel from '../models/user/UserSchema.js'
 import UserValidator from '../models/user/validators/UserValidator.js'
 import { globalError } from "../app/config/global.js"
+import authConfig from '../app/config/auth.js'
 
 const AuthRouter = Router()
 const picture = multer({ storage: upload.storage })
@@ -50,7 +51,9 @@ AuthRouter.post(
 
       delete findUser.password
 
-      const token = jwt.sign({ id: findUser.id }, process.env.JWT_SECRET)
+      const { jwt_secret, expiresIn } = authConfig
+      const token = jwt.sign({ id: findUser.id }, jwt_secret, { expiresIn })
+      
       res.status(200).json({ user: findUser, token })
 
     } catch (err) {
