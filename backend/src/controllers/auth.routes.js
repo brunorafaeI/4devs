@@ -7,7 +7,6 @@ import upload from '../app/config/upload.js'
 import UserModel from '../models/user/UserSchema.js'
 import UserValidator from '../models/user/validator/UserValidator.js'
 import authConfig from '../app/config/auth.js'
-import { UserNotFound } from "../models/user/validator/excepction/UserException.js"
 
 const AuthRouter = Router()
 const picture = multer({ storage: upload.storage })
@@ -46,7 +45,7 @@ AuthRouter.post(
     const { email, password } = body
 
     try {
-      const findUser = await UserValidator.checkEmail(email)
+      const findUser = await UserValidator.checkByEmail(email)
       await UserValidator.checkPassword(password, findUser)
 
       delete findUser.password
