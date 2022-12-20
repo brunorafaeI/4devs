@@ -4,7 +4,15 @@ import UserModel from '../UserSchema.js'
 import { UserInvalidCredential, UserNotFound } from './excepction/UserException.js'
 
 export default  {
-  async findByEmail(email) {
+  async checkId(id) {
+    const findUser = await UserModel.findOne({ _id: id })
+    if (!findUser) {
+      throw new UserNotFound("User not found!", 404)
+    }
+    return findUser
+  },
+
+  async checkEmail(email) {
     const findUser = await UserModel.findOne({ email })
     if (!findUser) {
       throw new UserNotFound("User not found!", 404)
