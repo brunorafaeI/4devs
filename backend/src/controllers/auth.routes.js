@@ -1,11 +1,8 @@
 import { Router } from "express"
 import multer from 'multer'
-import bcrypt from 'bcrypt'
-import jwt from 'jsonwebtoken'
 
 import upload from '../app/config/upload.js'
-import UserModel from '../models/user/UserSchema.js'
-import UserValidator from '../models/user/validator/UserValidator.js'
+import UserRepository from '../models/user/UserRepository.js'
 import authConfig from '../app/config/auth.js'
 
 const AuthRouter = Router()
@@ -16,20 +13,9 @@ AuthRouter.post(
   picture.single("picture"),
   async (req, res) => {
     const { body } = req
-    const { password } = body
 
     try {
-      const salt = await bcrypt.genSalt()
-      const passwordHash = await bcrypt.hash(password, salt)
-
-      const newUser = new UserModel({
-        ...body,
-        password: passwordHash,
-        viewedProfile: Math.floor(Math.random(2) * 100),
-        impressions: Math.floor(Math.random(2) * 100)
-      })
-
-      const saveUser = await newUser.save()
+      const saveUser = await UserRepository.create(body)
       res.status(201).json(saveUser)
 
     } catch (err) {
@@ -45,13 +31,8 @@ AuthRouter.post(
     const { email, password } = body
 
     try {
-      const findUser = await UserValidator.checkByEmail(email)
-      await UserValidator.checkPassword(password, findUser)
-
-      delete findUser.password
-
-      const { jwt_secret, expiresIn } = authConfig
-      const token = jwt.sign({ id: findUser.id }, jwt_secret, { expiresIn })
+      const findUser = await UserRepository.checkLogin(email, password)
+      const token = authConfig.createToken(findUser._id)
 
       res.status(200).json({ user: findUser, token })
 

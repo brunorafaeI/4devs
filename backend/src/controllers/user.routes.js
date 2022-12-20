@@ -2,7 +2,7 @@ import { Router } from "express"
 
 import { verifyToken } from "../middlewares/jwt.js"
 import { verifyObjectId } from "../middlewares/mongoose.js"
-import UserValidator from "../models/user/validator/UserValidator.js"
+import UserRepository from "../models/user/UserRepository.js"
 
 const UserRouter = Router()
 
@@ -15,7 +15,7 @@ UserRouter.get(
     const { id } = params
 
     try {
-      const findUser = await UserValidator.checkById(id)
+      const findUser = await UserRepository.findById(id)
       return res.status(200).json({ user: findUser })
 
     } catch (err) {
@@ -33,10 +33,10 @@ UserRouter.get(
     const { id } = params
 
     try {
-      const findUser = await UserValidator.checkById(id)
+      const findUser = await UserRepository.findById(id)
       const userFriends = await Promise.all(
         findUser.friends.map(async (friendId) => {
-          const findFriend = await UserValidator.checkById(friendId)
+          const findFriend = await UserRepository.findById(friendId)
           return findFriend
             ? {
               _id: findFriend._id,
@@ -66,11 +66,29 @@ UserRouter.patch(
     const { id, friendId } = params
 
     try {
-      await UserValidator.checkFriend(id, friendId)
-      return res.status(200).json({ message: "success" })
+      await UserRepository.updateFriend(id, friendId)
+      return res.status(200).json({ message: "Friends updated successfully" })
 
     } catch (err) {
       throw err
+    }
+  }
+)
+
+UserRouter.get(
+  "/:id/posts",
+  verifyToken,
+  verifyObjectId,
+  async (req, res) => {
+    const { params } = req
+    const { id } = params
+
+    try {
+        const findUser = await UserRepository.findById(id)
+        return res.status(200).json({ user: findUser })
+
+    } catch (err) {
+        throw err
     }
   }
 )
