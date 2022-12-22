@@ -24,16 +24,5 @@ services:
           - backend
       command: ["pm2-runtime", "process.json"]
 
-    # mongo:
-    #     image: mongo
-    #     container_name: app_mongo
-    #     restart: always
-    #     ports:
-    #         - 27017:27017
-    #     volumes:
-    #         - ./docker/mongodb/data/db:/data/db
-    #     networks:
-    #         - backend
-
 networks:
     backend:
