@@ -14,12 +14,12 @@ export const verifyToken = async (req, res, next) => {
 
   try {
     const decodedToken = jwt.verify(token, authConfig.jwt_secret)
-    const { sub } = decodedToken;
+    const { sub } = decodedToken
 
-    req.user_access = sub;
+    req.user_access = sub
     next()
 
   } catch {
-    throw new AppError("Invalid JWT token", 401);
+    throw new AppError("Invalid JWT token", 401)
   }
 }

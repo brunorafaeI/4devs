@@ -8,6 +8,21 @@ import UserRepository from "../models/user/UserRepository.js"
 const UserRouter = Router()
 
 UserRouter.get(
+  "/",
+  verifyToken,
+  async (req, res) => {
+
+    try {
+      const findUsers = await UserRepository.findAll()
+      res.status(200).json({ users: findUsers })
+
+    } catch (err) {
+      throw err
+    }
+  }
+)
+
+UserRouter.get(
   "/:id",
   verifyToken,
   verifyObjectId,

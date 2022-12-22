@@ -10,6 +10,11 @@ import {
 import UserDTO from './UserDTO.js'
 
 export default  {
+  async findAll() {
+    const findUsers = await UserModel.find()
+    return Array.isArray(findUsers) && findUsers.map(user => new UserDTO(user))
+  },
+
   async findById(id) {
     const findUser = await UserModel.findById(id)
     if (!findUser) {
@@ -28,7 +33,7 @@ export default  {
     if (!bcrypt.compareSync(password, findUser.password)) {
       throw new UserInvalidCredential()
     }
-    
+
     return new UserDTO(findUser)
   },
 
