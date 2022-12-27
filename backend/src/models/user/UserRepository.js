@@ -12,7 +12,7 @@ import UserDTO from './UserDTO.js'
 export default  {
   async findAll() {
     const findUsers = await UserModel.find()
-    return Array.isArray(findUsers) && findUsers.map(user => new UserDTO(user))
+    return findUsers.map(user => new UserDTO(user))
   },
 
   async findById(id) {
@@ -53,6 +53,20 @@ export default  {
 
     const saveUser = await newUser.save()
     return new UserDTO(saveUser)
+  },
+
+  async update(id, objUser) {
+    const findUser = await UserModel.findById(id)
+    if (!findUser) {
+      throw new UserNotFound()
+    }
+
+    await UserModel.updateOne(
+      { _id: id },
+      { $set: objUser, $currentDate: { lastModified: true } }
+    )
+
+    return new UserDTO(Object.assign(findUser, objUser))
   },
 
   async updateFriend(id, friendId) {

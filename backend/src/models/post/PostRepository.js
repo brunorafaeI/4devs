@@ -14,7 +14,7 @@ export default {
 
   async findAll() {
     const posts = await PostModel.find()
-    return Array.isArray(posts) && posts.map(post => new PostDTO(post))
+    return posts.map(post => new PostDTO(post))
   },
 
   async find(criteria) {

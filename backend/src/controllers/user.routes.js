@@ -40,6 +40,24 @@ UserRouter.get(
   }
 )
 
+UserRouter.patch(
+  "/:id",
+  verifyToken,
+  verifyObjectId,
+  async (req, res) => {
+    const { params, body } = req
+    const { id } = params
+
+    try {
+      const updatedUser = await UserRepository.update(id, body)
+      res.status(200).json({ user: updatedUser })
+
+    } catch (err) {
+      throw err
+    }
+  }
+)
+
 UserRouter.get(
   "/:id/friends",
   verifyToken,
