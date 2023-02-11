@@ -1,5 +1,5 @@
 export class UserDTO {
-  constructor({
+  constructor ({
     _id,
     firstName,
     lastName,
@@ -12,9 +12,8 @@ export class UserDTO {
     impressions,
     createAt,
     updateAt,
-    __v,
-  })
-  {
+    __v
+  }) {
     this._id = _id
     this.firstName = firstName
     this.lastName = lastName

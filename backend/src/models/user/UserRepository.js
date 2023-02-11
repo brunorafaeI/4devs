@@ -5,17 +5,17 @@ import {
   UserInvalidCredential,
   UserActionNotValid,
   UserNotFound,
-  UserEmailAlreadyExists,
+  UserEmailAlreadyExists
 } from './excepction/UserException.js'
 import UserDTO from './UserDTO.js'
 
-export default  {
-  async findAll() {
+export default {
+  async findAll () {
     const findUsers = await UserModel.find()
     return findUsers.map(user => new UserDTO(user))
   },
 
-  async findById(id) {
+  async findById (id) {
     const findUser = await UserModel.findById(id)
     if (!findUser) {
       throw new UserNotFound()
@@ -24,7 +24,7 @@ export default  {
     return new UserDTO(findUser)
   },
 
-  async checkLogin(email, password) {
+  async checkLogin (email, password) {
     const findUser = await UserModel.findOne({ email })
     if (!findUser) {
       throw new UserNotFound()
@@ -37,7 +37,7 @@ export default  {
     return new UserDTO(findUser)
   },
 
-  async create(objUser) {
+  async create (objUser) {
     const { email, password } = objUser
     await this.checkIfEmailExists(email)
 
@@ -55,7 +55,7 @@ export default  {
     return new UserDTO(saveUser)
   },
 
-  async update(id, objUser) {
+  async update (id, objUser) {
     const findUser = await UserModel.findById(id)
     if (!findUser) {
       throw new UserNotFound()
@@ -69,7 +69,7 @@ export default  {
     return new UserDTO(Object.assign(findUser, objUser))
   },
 
-  async updateFriend(id, friendId) {
+  async updateFriend (id, friendId) {
     if (id === friendId) {
       throw new UserActionNotValid("You can't add your own account as friend!")
     }
@@ -81,7 +81,7 @@ export default  {
     this.updateByFriendId(findFriend, id)
   },
 
-  async updateByFriendId(objUser, friendId) {
+  async updateByFriendId (objUser, friendId) {
     const updateSet = objUser.friends.includes(friendId)
       ? { $pull: { friends: friendId } }
       : { $addToSet: { friends: friendId } }
@@ -89,7 +89,7 @@ export default  {
     await UserModel.updateOne({ _id: objUser._id }, updateSet)
   },
 
-  async checkIfEmailExists(email) {
+  async checkIfEmailExists (email) {
     const findUser = await UserModel.findOne({ email })
     if (findUser) {
       throw new UserEmailAlreadyExists()

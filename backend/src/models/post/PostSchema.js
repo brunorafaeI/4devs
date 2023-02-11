@@ -3,25 +3,25 @@ import { Schema, model } from 'mongoose'
 const PostSchema = Schema({
   userId: {
     type: String,
-    required: true,
+    required: true
   },
   picturePath: {
     type: String,
-    default: ""
+    default: ''
   },
   location: String,
   description: {
     type: String,
-    default: ""
+    default: ''
   },
   likes: {
     type: Map,
-    of: Boolean,
+    of: Boolean
   },
   comments: {
     type: Array,
     default: []
-  },
+  }
 }, { timestamps: true })
 
-export default model("Post", PostSchema)
+export default model('Post', PostSchema)

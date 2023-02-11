@@ -1,5 +1,5 @@
 export class PostDTO {
-  constructor({
+  constructor ({
     _id,
     description,
     picturePath,
@@ -9,9 +9,8 @@ export class PostDTO {
     comments,
     createAt,
     updateAt,
-    __v,
-  })
-  {
+    __v
+  }) {
     this._id = _id
     this.description = description
     this.picturePath = picturePath

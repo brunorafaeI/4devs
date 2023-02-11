@@ -3,7 +3,7 @@ import PostDTO from './PostDTO.js'
 import PostModel from './PostSchema.js'
 
 export default {
-  async findById(id) {
+  async findById (id) {
     const findPost = await PostModel.findById(id)
     if (!findPost) {
       throw new PostNotFound()
@@ -12,27 +12,27 @@ export default {
     return new PostDTO(findPost)
   },
 
-  async findAll() {
+  async findAll () {
     const posts = await PostModel.find()
     return posts.map(post => new PostDTO(post))
   },
 
-  async find(criteria) {
+  async find (criteria) {
     const posts = await PostModel.find(criteria)
     return posts.map(post => new PostDTO(post))
   },
 
-  async create(objPost) {
+  async create (objPost) {
     const post = new PostModel(objPost)
     const savePost = await post.save()
 
     return new PostDTO(savePost)
   },
 
-  async deleteById(id) {
+  async deleteById (id) {
     const post = await PostModel.findByIdAndDelete(id)
     if (!post) {
       throw new PostNotFound()
     }
-  },
+  }
 }

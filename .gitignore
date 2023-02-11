@@ -1,24 +1,20 @@
 ## Docker files settings
 docker/mongodb/data/db/
-!docker/mongodb/data/db/.gitkeep
-docker/mssql/output/
 
+## Backend folders
+backend/public/assets/*
+!.gitkeep
 ## Vscode IDE settings
 .vscode/
 
 ## Node's dependences
-backend/node_modules/
+node_modules/
 
 ## Build files
-backend/build/
+build/
 
 ## Env
 .env
-backend/.env
-
-## Folder to upload images
-backend/tmp/*
-!backend/tmp/.gitkeep
 
 ## Yarn lock
 yarn-error.log

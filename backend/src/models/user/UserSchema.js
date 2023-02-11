@@ -26,7 +26,7 @@ const UserSchema = Schema({
   },
   picturePath: {
     type: String,
-    default: ""
+    default: ''
   },
   friends: {
     type: Array,
@@ -35,8 +35,7 @@ const UserSchema = Schema({
   location: String,
   occupation: String,
   viewedProfile: Number,
-  impressions: Number,
+  impressions: Number
 }, { timestamps: true })
 
-export default model("User", UserSchema)
-
+export default model('User', UserSchema)

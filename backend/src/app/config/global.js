@@ -5,7 +5,7 @@ export const __filename = fileURLToPath(import.meta.url)
 export const __dirname = path.dirname(__filename)
 
 export class AppError extends Error {
-  constructor(message, statusCode = 400) {
+  constructor (message, statusCode = 400) {
     super()
     this.message = message
     this.statusCode = statusCode
